@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "244237266145",
+    "project_id": "animate-e10a9",
+    "storage_bucket": "animate-e10a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244237266145:android:ff36419966dfca1ac31ba0",
+        "android_client_info": {
+          "package_name": "com.animate.animate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244237266145-hv5ibc8j1hb8ff1gph3dm0fi96qf73pi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.animate.animate",
+            "certificate_hash": "3e54fd4033db222077d065342d34484286b1c849"
+          }
+        },
+        {
+          "client_id": "244237266145-js92d5gsi1legj9rsnnbsunon6183f2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGoTbNyZHp6kmyLyctKwqvzQn8qkFest4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244237266145-js92d5gsi1legj9rsnnbsunon6183f2t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
