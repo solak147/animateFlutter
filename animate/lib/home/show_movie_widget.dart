@@ -1,6 +1,7 @@
 import '../movie/movie.dart';
 import 'package:flutter/material.dart';
 import 'card_scroll_widget.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class ShowMovieWidget extends StatefulWidget {
   final MovieList _movieList;
@@ -48,13 +49,18 @@ class _ShowMovieWidgetState extends State<ShowMovieWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(category,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40.0,
-                      fontFamily: "Calibre-Semibold",
-                      letterSpacing: 1.0,
-                    )),
+                SizedBox(
+                  child: TypewriterAnimatedTextKit(
+                      text: [category,],
+                      isRepeatingAnimation: false,
+                      textStyle: TextStyle(
+                          fontSize: 34.0,
+                          fontFamily: "Calibre-Semibold",
+                          color: Colors.white),
+                      textAlign: TextAlign.start,
+                      alignment: AlignmentDirectional.topStart
+                  ),
+                ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Image.asset(
@@ -98,12 +104,17 @@ class _ShowMovieWidgetState extends State<ShowMovieWidget> {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                      "上映日期：${movieList.results[currentPage.round()].releaseDate}",
-                      style: TextStyle(
-                          color: Colors.amberAccent,
-                          fontSize: 10.0,
-                          fontFamily: "SF-Pro-Text-Regular"))
+                  GestureDetector(
+                      onTap: () {  print('test'); },
+                      child: Padding(padding: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          '點擊看更多細節與預告片',
+                          style: TextStyle(
+                              color: Colors.amberAccent,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),
+                        ),)
+                  ),
                 ],
               )),
         ],
@@ -111,3 +122,5 @@ class _ShowMovieWidgetState extends State<ShowMovieWidget> {
     );
   }
 }
+
+// GestureDetector 偵測手勢
