@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'card_scroll_widget.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
+import 'movie_detail_page.dart';
+
 class ShowMovieWidget extends StatefulWidget {
   final MovieList _movieList;
   final String _category;
@@ -105,7 +107,17 @@ class _ShowMovieWidgetState extends State<ShowMovieWidget> {
                     width: 10,
                   ),
                   GestureDetector(
-                      onTap: () {  print('test'); },
+                      onTap: () =>Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MovieDetailPage(
+                                posterPath: movieList.results[currentPage.round()].backdropPath,
+                                overview: movieList.results[currentPage.round()].overview,
+                                title: movieList.results[currentPage.round()].title,
+                                releaseDate: movieList.results[currentPage.round()].releaseDate,
+                                voteAverage: movieList.results[currentPage.round()].voteAverage,
+                                movieId: movieList.results[currentPage.round()].id,
+                              ))),
                       child: Padding(padding: EdgeInsets.only(top: 10.0),
                         child: Text(
                           '點擊看更多細節與預告片',
