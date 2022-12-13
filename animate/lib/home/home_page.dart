@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import '../authentication_bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'show_movie_widget.dart';
+import '../firebase/upload_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import '../firebase/firestore_database.dart';
 
 class HomePage extends StatefulWidget {
   final String email;
@@ -170,10 +174,18 @@ Widget buildList(movieList) {
       });
 }
 
-class SideDrawer extends StatelessWidget {
+class SideDrawer extends StatefulWidget {
   final String email;
-
   SideDrawer({Key key, this.email}) : super(key: key);
+
+  @override
+  _SideDrawerState createState() => _SideDrawerState();
+}
+
+class _SideDrawerState extends State<SideDrawer> {
+
+  String imagePath;
+  String get email => widget.email;
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +195,43 @@ class SideDrawer extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              currentAccountPicture: Image.asset('assets/no.jpg'),
+              currentAccountPicture: FutureBuilder<String>(
+                future: getProfilePictureUrl(email),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.active:
+                    case ConnectionState.waiting:
+                      return Center(child: CircularProgressIndicator());
+                      break;
+                    case ConnectionState.done:
+                      if(snapshot.data != null)
+                        return Image.network(snapshot.data);
+                      return Container();
+                  }
+                  return null;
+                },
+              ),
               accountEmail: Text(email),
               decoration: BoxDecoration(color: Colors.brown),
+            ),
+            ListTile(
+              leading: Icon(Icons.file_upload),
+              title: Text('Profile picture'),
+              onTap: () async {
+
+                File image =
+                await ImagePicker.pickImage(source: ImageSource.gallery);
+                if (image != null) {
+                  var uploadTask = uploadImage(image, email);
+                  await uploadTask.onComplete;
+                  String url = await uploadTask.lastSnapshot.ref.getDownloadURL();
+                  await updateProfilePictureUrl(email, url);
+                }
+
+                setState(() { });
+
+              },
             ),
             ListTile(
               leading: Icon(Icons.sentiment_satisfied),
@@ -247,3 +293,5 @@ Future<void> _asyncScoreDialog(BuildContext context) async {
     },
   );
 }
+
+

@@ -14,8 +14,7 @@ StreamBuilder<QuerySnapshot> getComments(String movieId) {
           child: CircularProgressIndicator(),
         );
       final int commentCount = snapshot.data.documents.length;
-      snapshot.data.documents
-          .sort((a, b) => b.data['time'].compareTo(a.data['time']));
+      snapshot.data.documents.sort((a, b) => b.data['time'].compareTo(a.data['time']));
       if (commentCount > 0) {
         return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
@@ -50,5 +49,21 @@ void createRecord(String movieId, String email, String content) async {
     'user_email': email,
     'content': content,
     'time': Timestamp.now()
+  });
+}
+
+Future<String> getProfilePictureUrl(String email) async {
+// 用使用者信箱當作索引值去找到對應的文件
+  var doc = await Firestore.instance.collection('Users').document(email).get();
+  if (doc.exists) {
+    return doc.data['profile_picture_url'];
+  }
+  return '';
+}
+
+void updateProfilePictureUrl(String email, String url) async {
+// 用使用者信箱當作索引值去新增or更新 圖片路徑
+  await Firestore.instance.collection("Users").document(email).setData({
+    'profile_picture_url': url,
   });
 }
