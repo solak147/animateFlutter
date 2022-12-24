@@ -254,7 +254,7 @@ class _SideDrawerState extends State<SideDrawer> {
               title: Text("About"),
               onTap: () {
                 SnackBar snackbar = SnackBar(
-                  content: Text('FlutTube是第十一屆iT邦幫忙鐵人賽的實作專案\n其中使用的電影資料由TMDb所提供'),
+                  content: Text('此為電影預告片的實作專案\n其中使用的電影資料由TMDb所提供'),
                   duration: Duration(seconds: 5),
                 );
                 Scaffold.of(context).showSnackBar(snackbar);
