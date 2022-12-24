@@ -1,3 +1,4 @@
+import 'package:animate/instagram/ig_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,74 +75,95 @@ class _LoginFormState extends State<LoginForm> {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(LoggedIn());
         }
       },
-      child: BlocBuilder<LoginBloc, LoginState>(
-          builder: (BuildContext context, LoginState state) {
-            return Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Form(child: Material(
-                  child: ListView(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Image.asset(
-                          'assets/logo.png',
-                          height: 200,
-                        ),
-                      ),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.email), labelText: 'Email'),
-                        autovalidate: true,
-                        autocorrect: false,
-                        validator: (_) {
-                          return !state.isEmailValid ? 'Invalid Email' : null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.lock), labelText: 'Password'),
-                        obscureText: true,
-                        autovalidate: true,
-                        autocorrect: false,
-                        validator: (_) {
-                          return !state.isPasswordValid ? 'Invalid Password' : null;
-                        },
-                      ),
-                      CheckboxListTile(
-                        value: _rememberAccount ?? false,
-                        onChanged: (value){
-                          setState(() {
-                            _rememberAccount = value;
-                          });
-                          _saveCheckout(value);
-                        },
-                        title: Text('記住我的帳號'),
-                        controlAffinity: ListTileControlAffinity.leading,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            LoginButton(
-                                onPressed: isLoginButtonEnabled(state)
-                                    ? _onFormSubmitted
-                                    : null),
-
-                            GoogleSignInButton(
-                              onPressed: () =>
-                                  _loginBloc.dispatch(LoginWithGooglePressed()),
-                            ),
-                            CreateAccountButton(userRepository: _userRepository)
-                          ],
-                        ),
-                      )
-                    ],
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            GestureDetector(
+              onTap: () =>Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => IgHome())),
+              child : Padding(
+                padding: const EdgeInsets.only(right : 180.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.photo_camera_outlined,
+                    color: Colors.white,
                   ),
-                )));
-          }),
+                  //onPressed: () => print('按下camera'),
+                  )
+                ),
+            )],
+          ),
+        body: BlocBuilder<LoginBloc, LoginState>(
+        builder: (BuildContext context, LoginState state) {
+          return Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Form(child: Material(
+                child: ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      child: Image.asset(
+                        'assets/logo.png',
+                        height: 200,
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                          icon: Icon(Icons.email), labelText: 'Email'),
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isEmailValid ? 'Invalid Email' : null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                          icon: Icon(Icons.lock), labelText: 'Password'),
+                      obscureText: true,
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isPasswordValid ? 'Invalid Password' : null;
+                      },
+                    ),
+                    CheckboxListTile(
+                      value: _rememberAccount ?? false,
+                      onChanged: (value){
+                        setState(() {
+                          _rememberAccount = value;
+                        });
+                        _saveCheckout(value);
+                      },
+                      title: Text('記住我的帳號'),
+                      controlAffinity: ListTileControlAffinity.leading,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          LoginButton(
+                              onPressed: isLoginButtonEnabled(state)
+                                  ? _onFormSubmitted
+                                  : null),
+
+                          GoogleSignInButton(
+                            onPressed: () =>
+                                _loginBloc.dispatch(LoginWithGooglePressed()),
+                          ),
+                          CreateAccountButton(userRepository: _userRepository)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )));
+        }),
+      )
     );
   }
 

@@ -1,7 +1,9 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
 
+import 'firebase/messaging.dart';
 import 'home/home_page.dart';
 import 'splash_page.dart';
 import 'simpleBlocDelegate.dart';
@@ -22,10 +24,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final UserRepository _userRepository = UserRepository();
   AuthenticationBloc _authenticationBloc;
+  FirebaseMessaging _firebaseMessaging;
 
   @override
   void initState() {
     _authenticationBloc = AuthenticationBloc(userRepository: _userRepository);
+    _firebaseMessaging = configureMessaging();
     super.initState();
   }
 
